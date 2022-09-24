@@ -29,16 +29,16 @@ dx10StateCache<IDeviceState, StateDecs>
 }
 */
 
-template <class IDeviceState, class StateDecs>
-void dx10StateCache<IDeviceState, StateDecs>::ClearStateArray()
-{
-	for (u32 i = 0; i < m_StateArray.size(); ++i)
-	{
-		_RELEASE(m_StateArray[i].m_pState);
-	}
-
-	m_StateArray.clear_not_free();
-}
+// template <class IDeviceState, class StateDecs>
+// void dx10StateCache<IDeviceState, StateDecs>::ClearStateArray()
+//{
+//	for (u32 i = 0; i < m_StateArray.size(); ++i)
+//	{
+//		_RELEASE(m_StateArray[i].m_pState);
+//	}
+//
+//	m_StateArray.clear_not_free();
+// }
 
 template <>
 void dx10StateCache<ID3D10RasterizerState, D3D10_RASTERIZER_DESC>::CreateState(D3D10_RASTERIZER_DESC desc,

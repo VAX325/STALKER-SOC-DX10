@@ -16,7 +16,7 @@
 #include "game_cl_base.h"
 #include "object_factory.h"
 #include "../xrRender/Kinematics.h"
-#include "ai_object_location_impl.h"
+#include "ai_object_location.h"
 #include "game_graph.h"
 #include "ai_debug.h"
 #include "../igame_level.h"

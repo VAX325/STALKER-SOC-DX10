@@ -37,7 +37,7 @@ IPropHelper& PHelper()
 LPCSTR script_section = "script";
 LPCSTR current_version = "current_server_entity_version";
 
-IC u16 script_server_object_version()
+u16 script_server_object_version()
 {
 	static bool initialized = false;
 	static u16 script_version = 0;
@@ -181,7 +181,7 @@ void CSE_Abstract::Spawn_Write(NET_Packet& tNetPacket, BOOL bLocal)
 	u16 client_data_size = (u16)client_data.size(); // не может быть больше 256 байт
 	tNetPacket.w_u16(client_data_size);
 	//	Msg							("SERVER:saving:save:%d bytes:%d:%s",client_data_size,ID,s_name_replace ?
-	//s_name_replace
+	// s_name_replace
 	//:
 	//"");
 	if (client_data_size > 0) { tNetPacket.w(&*client_data.begin(), client_data_size); }
@@ -304,7 +304,7 @@ void CSE_Abstract::load(NET_Packet& tNetPacket)
 	{
 #ifdef DEBUG
 //		Msg						("SERVER:loading:load:%d bytes:%d:%s",client_data_size,ID,s_name_replace ?
-//s_name_replace
+// s_name_replace
 //:
 //"");
 #endif // DEBUG

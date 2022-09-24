@@ -43,6 +43,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)..\intermediate\bin-$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\intermediate\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>
+    <LibraryPath>$(SolutionDir)..\intermediate\lib-$(Platform)-$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IntDir>$(SolutionDir)..\intermediate\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>

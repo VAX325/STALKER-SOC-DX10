@@ -638,7 +638,6 @@
     <ClCompile Include="$(SolutionDir)xr_3da\xrRender\Blender_Screen_SET.cpp" />
     <ClCompile Include="$(SolutionDir)xr_3da\xrRender\Blender_tree.cpp" />
     <ClCompile Include="$(SolutionDir)xr_3da\xrRender\D3DUtils.cpp" />
-    <ClCompile Include="$(SolutionDir)xr_3da\xrRender\Debug\dxPixEventWrapper.cpp" />
     <ClCompile Include="$(SolutionDir)xr_3da\xrRender\DetailManager.cpp" />
     <ClCompile Include="$(SolutionDir)xr_3da\xrRender\DetailManager_CACHE.cpp" />
     <ClCompile Include="$(SolutionDir)xr_3da\xrRender\DetailManager_Decompress.cpp" />

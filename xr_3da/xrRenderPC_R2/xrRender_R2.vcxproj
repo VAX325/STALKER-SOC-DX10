@@ -61,21 +61,21 @@
     <IntDir>$(SolutionDir)..\intermediate\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(DXSDK_DIR)Include\;$(SolutionDir)Luabind\;$(SolutionDir)LuaJIT\src\;$(SolutionDir)third-party\;$(SolutionDir)third-party\loki\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(SolutionDir)xrCore\;$(DXSDK_DIR)Include\;$(SolutionDir)Luabind\;$(SolutionDir)LuaJIT\src\;$(SolutionDir)third-party\;$(SolutionDir)third-party\loki\;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\$(LibrariesArchitecture)\;$(SolutionDir)..\intermediate\lib-$(Platform)-$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)..\intermediate\bin-$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\intermediate\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(DXSDK_DIR)Include\;$(SolutionDir)Luabind\;$(SolutionDir)LuaJIT\src\;$(SolutionDir)third-party\;$(SolutionDir)third-party\loki\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(SolutionDir)xrCore\;$(DXSDK_DIR)Include\;$(SolutionDir)Luabind\;$(SolutionDir)LuaJIT\src\;$(SolutionDir)third-party\;$(SolutionDir)third-party\loki\;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\$(LibrariesArchitecture)\;$(SolutionDir)..\intermediate\lib-$(Platform)-$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">
     <OutDir>$(SolutionDir)..\intermediate\bin-$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\intermediate\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(DXSDK_DIR)Include\;$(SolutionDir)Luabind\;$(SolutionDir)LuaJIT\src\;$(SolutionDir)third-party\;$(SolutionDir)third-party\loki\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(SolutionDir)xrCore\;$(DXSDK_DIR)Include\;$(SolutionDir)Luabind\;$(SolutionDir)LuaJIT\src\;$(SolutionDir)third-party\;$(SolutionDir)third-party\loki\;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\$(LibrariesArchitecture)\;$(SolutionDir)..\intermediate\lib-$(Platform)-$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -93,8 +93,6 @@
       <ForceConformanceInForLoopScope>false</ForceConformanceInForLoopScope>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -133,9 +131,6 @@
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AssemblerOutput />
-      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -175,9 +170,6 @@
       <ForceConformanceInForLoopScope>false</ForceConformanceInForLoopScope>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AssemblerOutput />
-      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -510,9 +502,7 @@
     <ClCompile Include="r2.cpp" />
     <ClCompile Include="r2_blenders.cpp" />
     <ClCompile Include="r2_loader.cpp" />
-    <ClCompile Include="r2_rendertarget.cpp">
-      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AssemblyAndSourceCode</AssemblerOutput>
-    </ClCompile>
+    <ClCompile Include="r2_rendertarget.cpp" />
     <ClCompile Include="r2_rendertarget_accum_direct.cpp" />
     <ClCompile Include="r2_rendertarget_accum_omnipart_geom.cpp" />
     <ClCompile Include="r2_rendertarget_accum_point.cpp" />

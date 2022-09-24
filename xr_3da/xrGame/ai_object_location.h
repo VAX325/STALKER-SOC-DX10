@@ -36,3 +36,4 @@ public:
 };
 
 #include "ai_object_location_inline.h"
+#include "ai_object_location_impl.h"

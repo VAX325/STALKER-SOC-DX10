@@ -20,9 +20,9 @@ IC bool compare_safe(const luabind::object& o1, const luabind::object& o2)
 
 #ifdef XRAY_EXCEPTIONS
 #define process_error                                                                                                  \
-	catch (luabind::error&)                                                                                            \
+	catch (std::exception&)                                                                                            \
 	{                                                                                                                  \
-		GEnv.ScriptEngine->print_output(GEnv.ScriptEngine->lua(), "", LUA_ERRRUN);                                     \
+		ai().script_engine().print_output(ai().script_engine().lua(), "", LUA_ERRRUN);                                 \
 	}
 #else
 #define process_error
