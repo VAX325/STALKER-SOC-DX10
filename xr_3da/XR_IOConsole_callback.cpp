@@ -5,7 +5,7 @@
 // Description : Console`s callback functions class implementation
 ////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "pch_engine.h"
 #include "XR_IOConsole.h"
 
 #include "line_editor.h"
@@ -43,19 +43,13 @@ void CConsole::Register_callbacks()
 void CConsole::Prev_log() // DIK_PRIOR=PAGE_UP
 {
 	scroll_delta++;
-	if (scroll_delta > int(LogFile->size()) - 1)
-	{
-		scroll_delta = LogFile->size() - 1;
-	}
+	if (scroll_delta > int(LogFile->size()) - 1) { scroll_delta = LogFile->size() - 1; }
 }
 
 void CConsole::Next_log() // DIK_NEXT=PAGE_DOWN
 {
 	scroll_delta--;
-	if (scroll_delta < 0)
-	{
-		scroll_delta = 0;
-	}
+	if (scroll_delta < 0) { scroll_delta = 0; }
 }
 
 void CConsole::Begin_log() // PAGE_UP+Ctrl
@@ -73,10 +67,7 @@ void CConsole::Find_cmd() // DIK_TAB
 	shared_str out_str;
 
 	IConsole_Command* cc = find_next_cmd(ec().str_edit(), out_str);
-	if (cc && out_str.size())
-	{
-		ec().set_edit(out_str.c_str());
-	}
+	if (cc && out_str.size()) { ec().set_edit(out_str.c_str()); }
 }
 
 void CConsole::Find_cmd_back() // DIK_TAB+shift
@@ -179,10 +170,7 @@ void CConsole::Execute_cmd() // DIK_RETURN, DIK_NUMPADENTER
 		}
 		reset_selected_tip();
 	}
-	else
-	{
-		ExecuteCommand(ec().str_edit());
-	}
+	else { ExecuteCommand(ec().str_edit()); }
 	m_disable_tips = false;
 }
 

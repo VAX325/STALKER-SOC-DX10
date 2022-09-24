@@ -4581,18 +4581,6 @@
     <ClInclude Include="script_callback_ex.h">
       <Filter>AI\AScript\ScriptClasses\ScriptCallbackEx</Filter>
     </ClInclude>
-    <ClInclude Include="script_callback_ex_generators.h">
-      <Filter>AI\AScript\ScriptClasses\ScriptCallbackEx</Filter>
-    </ClInclude>
-    <ClInclude Include="script_callback_ex_inline.h">
-      <Filter>AI\AScript\ScriptClasses\ScriptCallbackEx</Filter>
-    </ClInclude>
-    <ClInclude Include="script_callback_ex_nonvoid.h">
-      <Filter>AI\AScript\ScriptClasses\ScriptCallbackEx</Filter>
-    </ClInclude>
-    <ClInclude Include="script_callback_ex_void.h">
-      <Filter>AI\AScript\ScriptClasses\ScriptCallbackEx</Filter>
-    </ClInclude>
     <ClInclude Include="script_lanim.h">
       <Filter>AI\AScript\ScriptClasses\ScriptLAnim</Filter>
     </ClInclude>
@@ -4677,7 +4665,7 @@
     <ClInclude Include="pch_script.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="StdAfx.h">
+    <ClInclude Include="stdafx.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="xr_Client_BattlEye.h">
@@ -6633,6 +6621,9 @@
     <ClInclude Include="script_vars_storage.h">
       <Filter>AI\AScript\ScriptStorage</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectDump.h">
+      <Filter>Physics\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -7862,7 +7853,7 @@
     <ClCompile Include="pch_script.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="StdAfx.cpp">
+    <ClCompile Include="stdafx.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="xr_Client_BattlEye.cpp">
@@ -9845,6 +9836,12 @@
     <ClCompile Include="script_vars_storage.cpp">
       <Filter>AI\AScript\ScriptStorage</Filter>
     </ClCompile>
+    <ClCompile Include="phvalidate.cpp">
+      <Filter>Physics\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectDump.cpp">
+      <Filter>Physics\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="graph_abstract.h">
@@ -9859,5 +9856,8 @@
     <CustomBuild Include="dRayMotions.h">
       <Filter>Physics\Colliders\RayMotions-Collider</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

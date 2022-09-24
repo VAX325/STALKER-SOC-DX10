@@ -1,31 +1,30 @@
-#include "stdafx.h"
+#include "pch_core.h"
 #pragma hdrstop
 
-#include	"xrsharedmem.h"
-#include	"xrMemory_pure.h"
+#include "xrsharedmem.h"
+#include "xrMemory_pure.h"
 
-#include	<malloc.h>
+#include <malloc.h>
 
-xrMemory	Memory;
-BOOL		mem_initialized = FALSE;
-bool		shared_str_initialized = false;
+xrMemory Memory;
+BOOL mem_initialized = FALSE;
+bool shared_str_initialized = false;
 
 // Processor specific implementations
-extern		pso_MemCopy		xrMemCopy_MMX;
-extern		pso_MemCopy		xrMemCopy_x86;
-extern		pso_MemFill		xrMemFill_x86;
-extern		pso_MemFill32	xrMemFill32_MMX;
-extern		pso_MemFill32	xrMemFill32_x86;
+extern pso_MemCopy xrMemCopy_MMX;
+extern pso_MemCopy xrMemCopy_x86;
+extern pso_MemFill xrMemFill_x86;
+extern pso_MemFill32 xrMemFill32_MMX;
+extern pso_MemFill32 xrMemFill32_x86;
 
 #ifdef DEBUG_MEMORY_MANAGER
 XRCORE_API void dump_phase()
 {
-	if (!Memory.debug_mode)
-		return;
+	if (!Memory.debug_mode) return;
 
-	static int					phase_counter = 0;
+	static int phase_counter = 0;
 
-	string256					temp;
+	string256 temp;
 	sprintf_s(temp, sizeof(temp), "x:\\$phase$%d.dump", ++phase_counter);
 	Memory.mem_statistic(temp);
 }
@@ -33,9 +32,9 @@ XRCORE_API void dump_phase()
 
 xrMemory::xrMemory()
 #ifdef DEBUG_MEMORY_MANAGER
-#	ifdef PROFILE_CRITICAL_SECTIONS
-	:debug_cs(MUTEX_PROFILE_ID(xrMemory))
-#	endif // PROFILE_CRITICAL_SECTIONS
+#ifdef PROFILE_CRITICAL_SECTIONS
+	: debug_cs(MUTEX_PROFILE_ID(xrMemory))
+#endif // PROFILE_CRITICAL_SECTIONS
 #endif // DEBUG_MEMORY_MANAGER
 {
 #ifdef DEBUG_MEMORY_MANAGER
@@ -49,10 +48,10 @@ xrMemory::xrMemory()
 }
 
 #ifdef DEBUG_MEMORY_MANAGER
-BOOL	g_bMEMO = FALSE;
+BOOL g_bMEMO = FALSE;
 #endif // DEBUG_MEMORY_MANAGER
 
-void	xrMemory::_initialize(BOOL bDebug)
+void xrMemory::_initialize(BOOL bDebug)
 {
 #ifdef DEBUG_MEMORY_MANAGER
 	debug_mode = bDebug;
@@ -80,7 +79,7 @@ void	xrMemory::_initialize(BOOL bDebug)
 		mem_initialized = TRUE;
 	else
 		g_bMEMO = TRUE;
-#else // DEBUG_MEMORY_MANAGER
+#else  // DEBUG_MEMORY_MANAGER
 	mem_initialized = TRUE;
 #endif // DEBUG_MEMORY_MANAGER
 
@@ -97,7 +96,7 @@ extern void dbg_dump_leaks();
 extern void dbg_dump_str_leaks();
 #endif // DEBUG_MEMORY_MANAGER
 
-void	xrMemory::_destroy()
+void xrMemory::_destroy()
 {
 #ifdef DEBUG_MEMORY_MANAGER
 	mem_alloc_gather_stats(false);
@@ -106,16 +105,16 @@ void	xrMemory::_destroy()
 #endif // DEBUG
 
 #ifdef DEBUG_MEMORY_MANAGER
-	if (debug_mode)				dbg_dump_str_leaks();
+	if (debug_mode) dbg_dump_str_leaks();
 #endif // DEBUG_MEMORY_MANAGER
 
 	xr_delete(g_pSharedMemoryContainer);
 	xr_delete(g_pStringContainer);
 
 #ifndef M_BORLAND
-#	ifdef DEBUG_MEMORY_MANAGER
-	if (debug_mode)				dbg_dump_leaks();
-#	endif // DEBUG_MEMORY_MANAGER
+#ifdef DEBUG_MEMORY_MANAGER
+	if (debug_mode) dbg_dump_leaks();
+#endif // DEBUG_MEMORY_MANAGER
 #endif // M_BORLAND
 
 	mem_initialized = FALSE;
@@ -124,57 +123,62 @@ void	xrMemory::_destroy()
 #endif // DEBUG_MEMORY_MANAGER
 }
 
-void	xrMemory::mem_compact()
+void xrMemory::mem_compact()
 {
 	RegFlushKey(HKEY_CLASSES_ROOT);
 	RegFlushKey(HKEY_CURRENT_USER);
 	_heapmin();
 	HeapCompact(GetProcessHeap(), 0);
-	if (g_pStringContainer)			g_pStringContainer->clean();
-	if (g_pSharedMemoryContainer)	g_pSharedMemoryContainer->clean();
-	if (strstr(Core.Params, "-swap_on_compact"))
-		SetProcessWorkingSetSize(GetCurrentProcess(), size_t(-1), size_t(-1));
+	if (g_pStringContainer) g_pStringContainer->clean();
+	if (g_pSharedMemoryContainer) g_pSharedMemoryContainer->clean();
+	if (strstr(Core.Params, "-swap_on_compact")) SetProcessWorkingSetSize(GetCurrentProcess(), size_t(-1), size_t(-1));
 }
 
 #ifdef DEBUG_MEMORY_MANAGER
-ICF	u8*		acc_header(void* P) { u8*		_P = (u8*)P;	return	_P - 1; }
-ICF	u32		get_header(void* P) { return	(u32)*acc_header(P); }
-void	xrMemory::mem_statistic(LPCSTR fn)
+ICF u8* acc_header(void* P)
 {
-	if (!debug_mode)	return;
+	u8* _P = (u8*)P;
+	return _P - 1;
+}
+ICF u32 get_header(void* P) { return (u32)*acc_header(P); }
+void xrMemory::mem_statistic(LPCSTR fn)
+{
+	if (!debug_mode) return;
 	mem_compact();
 
 	debug_cs.Enter();
 	debug_mode = FALSE;
 
-	FILE*		Fa = fopen(fn, "w");
+	FILE* Fa = fopen(fn, "w");
 	fprintf(Fa, "$BEGIN CHUNK #0\n");
 	fprintf(Fa, "POOL: %d %dKb\n", mem_pools_count, mem_pools_ebase);
 
 	fprintf(Fa, "$BEGIN CHUNK #1\n");
-	for (u32 k = 0; k<mem_pools_count; ++k)
+	for (u32 k = 0; k < mem_pools_count; ++k)
 		fprintf(Fa, "%2d: %d %db\n", k, mem_pools[k].get_block_count(), (k + 1) * 16);
 
 	fprintf(Fa, "$BEGIN CHUNK #2\n");
-	for (u32 it = 0; it<debug_info.size(); it++)
+	for (u32 it = 0; it < debug_info.size(); it++)
 	{
-		if (0 == debug_info[it]._p)	continue;
+		if (0 == debug_info[it]._p) continue;
 
 		u32 p_current = get_header(debug_info[it]._p);
 		int pool_id = (mem_generic == p_current) ? -1 : p_current;
 
-		fprintf(Fa, "0x%08X[%2d]: %8d %s\n", *(u32*)(&debug_info[it]._p), pool_id, debug_info[it]._size, debug_info[it]._name);
+		fprintf(Fa, "0x%08X[%2d]: %8d %s\n", *(u32*)(&debug_info[it]._p), pool_id, debug_info[it]._size,
+				debug_info[it]._name);
 	}
 
 	{
-		for (u32 k = 0; k<mem_pools_count; ++k) {
-			MEMPOOL			&pool = mem_pools[k];
-			u8				*list = pool.list;
-			while (list) {
+		for (u32 k = 0; k < mem_pools_count; ++k)
+		{
+			MEMPOOL& pool = mem_pools[k];
+			u8* list = pool.list;
+			while (list)
+			{
 				pool.cs.Enter();
-				u32				temp = *(u32*)(&list);
-				if (!temp)
-					break;
+				u32 temp = *(u32*)(&list);
+				if (!temp) break;
 				fprintf(Fa, "0x%08X[%2d]: %8d mempool\n", temp, k, pool.s_element);
 				list = (u8*)*pool.access(list);
 				pool.cs.Leave();
@@ -189,7 +193,8 @@ void	xrMemory::mem_statistic(LPCSTR fn)
 	if (0==debug_info[it]._p)	continue	;
 	try{
 	if (0==strcmp(debug_info[it]._name,"storage: sstring"))
-	fprintf		(Fa,"0x%08X: %8d %s %s\n",*(u32*)(&debug_info[it]._p),debug_info[it]._size,debug_info[it]._name,((str_value*)(*(u32*)(&debug_info[it]._p)))->value);
+	fprintf		(Fa,"0x%08X: %8d %s
+	%s\n",*(u32*)(&debug_info[it]._p),debug_info[it]._size,debug_info[it]._name,((str_value*)(*(u32*)(&debug_info[it]._p)))->value);
 	}catch(...){
 	}
 	}
@@ -207,7 +212,8 @@ void	xrMemory::mem_statistic(LPCSTR fn)
 	xr_map<u32,u32>			stats;
 
 	if (g_pStringContainer)			Msg	("memstat: shared_str: economy: %d bytes",g_pStringContainer->stat_economy());
-	if (g_pSharedMemoryContainer)	Msg	("memstat: shared_mem: economy: %d bytes",g_pSharedMemoryContainer->stat_economy());
+	if (g_pSharedMemoryContainer)	Msg	("memstat: shared_mem: economy: %d
+	bytes",g_pSharedMemoryContainer->stat_economy());
 
 	// Dump memory stats into file to avoid reallocation while traversing
 	{
@@ -247,24 +253,25 @@ void	xrMemory::mem_statistic(LPCSTR fn)
 #endif // DEBUG_MEMORY_MANAGER
 
 // xr_strdup
-char*			xr_strdup(const char* string)
+char* xr_strdup(const char* string)
 {
 	VERIFY(string);
-	u32		len = u32(xr_strlen(string)) + 1;
-	char *	memory = (char*)Memory.mem_alloc(len
+	u32 len = u32(xr_strlen(string)) + 1;
+	char* memory = (char*)Memory.mem_alloc(len
 #ifdef DEBUG_MEMORY_NAME
-		, "strdup"
+										   ,
+										   "strdup"
 #endif // DEBUG_MEMORY_NAME
 	);
 	CopyMemory(memory, string, len);
-	return	memory;
+	return memory;
 }
 
-XRCORE_API		BOOL			is_stack_ptr(void* _ptr)
+XRCORE_API BOOL is_stack_ptr(void* _ptr)
 {
-	int			local_value = 0;
-	void*		ptr_refsound = _ptr;
-	void*		ptr_local = &local_value;
-	ptrdiff_t	difference = (ptrdiff_t)_abs(s64(ptrdiff_t(ptr_local) - ptrdiff_t(ptr_refsound)));
-	return		(difference < (512 * 1024));
+	int local_value = 0;
+	void* ptr_refsound = _ptr;
+	void* ptr_local = &local_value;
+	ptrdiff_t difference = (ptrdiff_t)_abs(s64(ptrdiff_t(ptr_local) - ptrdiff_t(ptr_refsound)));
+	return (difference < (512 * 1024));
 }

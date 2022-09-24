@@ -1,17 +1,12 @@
-#include "stdafx.h"
+#include "pch_render.h"
 #include "dx10State.h"
 
-//#include "dx10RSManager.h"
+// #include "dx10RSManager.h"
 #include "dx10StateCache.h"
 
-dx10State::dx10State() : 
-	m_pRasterizerState(0),
-	m_pDepthStencilState(0),
-	m_pBlendState(0),
-	m_uiStencilRef(UINT(-1)),
-	m_uiAlphaRef(0)
+dx10State::dx10State()
+	: m_pRasterizerState(0), m_pDepthStencilState(0), m_pBlendState(0), m_uiStencilRef(UINT(-1)), m_uiAlphaRef(0)
 {
-
 }
 
 dx10State::~dx10State()
@@ -23,22 +18,21 @@ dx10State::~dx10State()
 
 dx10State* dx10State::Create(SimulatorStates& state_code)
 {
-	dx10State	*pState = new dx10State();
+	dx10State* pState = new dx10State();
 
 	state_code.UpdateState(*pState);
 
 	pState->m_pRasterizerState = RSManager.GetState(state_code);
 	pState->m_pDepthStencilState = DSSManager.GetState(state_code);
 	pState->m_pBlendState = BSManager.GetState(state_code);
-	//ID3D10Device::CreateSamplerState
+	// ID3D10Device::CreateSamplerState
 
 	//	Create samplers here
 	{
-		InitSamplers( pState->m_VSSamplers, state_code, CTexture::rstVertex);
-		InitSamplers( pState->m_PSSamplers, state_code, CTexture::rstPixel);
-		InitSamplers( pState->m_GSSamplers, state_code, CTexture::rstGeometry);
+		InitSamplers(pState->m_VSSamplers, state_code, CTexture::rstVertex);
+		InitSamplers(pState->m_PSSamplers, state_code, CTexture::rstPixel);
+		InitSamplers(pState->m_GSSamplers, state_code, CTexture::rstGeometry);
 	}
-
 
 	return pState;
 }
@@ -49,8 +43,7 @@ HRESULT dx10State::Apply()
 	StateManager.SetRasterizerState(m_pRasterizerState);
 	VERIFY(m_pDepthStencilState);
 	StateManager.SetDepthStencilState(m_pDepthStencilState);
-	if( m_uiStencilRef != -1 )
-		StateManager.SetStencilRef(m_uiStencilRef);
+	if (m_uiStencilRef != -1) StateManager.SetStencilRef(m_uiStencilRef);
 	VERIFY(m_pBlendState);
 	StateManager.SetBlendState(m_pBlendState);
 	StateManager.SetAlphaRef(m_uiAlphaRef);
@@ -59,31 +52,31 @@ HRESULT dx10State::Apply()
 	SSManager.VSApplySamplers(m_VSSamplers);
 	SSManager.PSApplySamplers(m_PSSamplers);
 
-//	static const FLOAT BlendFactor[4] = {0.000f, 0.000f, 0.000f, 0.000f};
-//	static const UINT SampleMask = 0xffffffff;
+	//	static const FLOAT BlendFactor[4] = {0.000f, 0.000f, 0.000f, 0.000f};
+	//	static const UINT SampleMask = 0xffffffff;
 
-//	VERIFY(m_pRasterizerState);
-//	HW.pDevice->RSSetState(m_pRasterizerState);
-//	VERIFY(m_pDepthStencilState);
-//	HW.pDevice->OMSetDepthStencilState(m_pDepthStencilState, m_uiStencilRef);
-//	VERIFY(m_pBlendState);
-//	HW.pDevice->OMSetBlendState(m_pBlendState, BlendFactor, SampleMask);
+	//	VERIFY(m_pRasterizerState);
+	//	HW.pDevice->RSSetState(m_pRasterizerState);
+	//	VERIFY(m_pDepthStencilState);
+	//	HW.pDevice->OMSetDepthStencilState(m_pDepthStencilState, m_uiStencilRef);
+	//	VERIFY(m_pBlendState);
+	//	HW.pDevice->OMSetBlendState(m_pBlendState, BlendFactor, SampleMask);
 
 	return S_OK;
 }
 
 void dx10State::Release()
 {
-	dx10State	*pState = this;
-	xr_delete<dx10State> (pState);
+	dx10State* pState = this;
+	xr_delete<dx10State>(pState);
 }
 
-void dx10State::InitSamplers( tSamplerHArray& SamplerArray, SimulatorStates& state_code, int iBaseSamplerIndex)
+void dx10State::InitSamplers(tSamplerHArray& SamplerArray, SimulatorStates& state_code, int iBaseSamplerIndex)
 {
 	D3D10_SAMPLER_DESC descArray[D3D10_COMMONSHADER_SAMPLER_SLOT_COUNT];
 	bool SamplerUsed[D3D10_COMMONSHADER_SAMPLER_SLOT_COUNT];
 
-	for (int i=0; i<D3D10_COMMONSHADER_SAMPLER_SLOT_COUNT; ++i)
+	for (int i = 0; i < D3D10_COMMONSHADER_SAMPLER_SLOT_COUNT; ++i)
 	{
 		SamplerUsed[i] = false;
 		dx10StateUtils::ResetDescription(descArray[i]);
@@ -92,16 +85,15 @@ void dx10State::InitSamplers( tSamplerHArray& SamplerArray, SimulatorStates& sta
 	state_code.UpdateDesc(descArray, SamplerUsed, iBaseSamplerIndex);
 
 	int iMaxSampler = D3D10_COMMONSHADER_SAMPLER_SLOT_COUNT - 1;
-	for ( ;iMaxSampler>-1; --iMaxSampler)
+	for (; iMaxSampler > -1; --iMaxSampler)
 	{
-		if (SamplerUsed[iMaxSampler])
-			break;
+		if (SamplerUsed[iMaxSampler]) break;
 	}
 
-	if (iMaxSampler>-1)
+	if (iMaxSampler > -1)
 	{
-		SamplerArray.reserve(iMaxSampler+1);
-		for ( int i=0; i<=iMaxSampler; ++i )
+		SamplerArray.reserve(iMaxSampler + 1);
+		for (int i = 0; i <= iMaxSampler; ++i)
 		{
 			if (SamplerUsed[i])
 				SamplerArray.push_back(SSManager.GetState(descArray[i]));

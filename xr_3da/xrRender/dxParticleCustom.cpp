@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch_render.h"
 #include "fbasicvisual.h"
 #include "dxparticlecustom.h"
 

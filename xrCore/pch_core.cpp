@@ -1,8 +1,8 @@
 // stdafx.cpp : source file that includes just the standard includes
-// xrRender_R2.pch will be the pre-compiled header
+// xrCore.pch will be the pre-compiled header
 // stdafx.obj will contain the pre-compiled type information
 
-#include "stdafx.h"
+#include "pch_core.h"
 
-// TODO: reference any additional headers you need in STDAFX.H
+// TODO: reference any additional headers you need in pch_core.h
 // and not in this file

@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "pch_engine.h"
 #include "xrXRC.h"
 
 ENGINE_API xrXRC XRC;
@@ -11,12 +11,6 @@ ENGINE_API xrXRC XRC;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-xrXRC::xrXRC()
-{
+xrXRC::xrXRC() {}
 
-}
-
-xrXRC::~xrXRC()
-{
-
-}
+xrXRC::~xrXRC() {}

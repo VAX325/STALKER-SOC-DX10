@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch_core.h"
 #pragma hdrstop
 
 /* lzo1x_9x.c -- implementation of the LZO1X-999 compression algorithm

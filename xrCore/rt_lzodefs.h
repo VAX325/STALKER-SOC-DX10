@@ -1332,6 +1332,7 @@ extern "C" {
 #    define LZO_COMPILE_TIME_ASSERT_HEADER(e)  extern int __lzo_cta[1-2*!(e)];
 #  endif
 #endif
+#define LZO_COMPILE_TIME_ASSERT(e) {static_assert(e, "LZO COMPILE ERROR!");}
 #if !defined(LZO_COMPILE_TIME_ASSERT)
 #  if (LZO_CC_AZTECC)
 #    define LZO_COMPILE_TIME_ASSERT(e)  {typedef int __lzo_cta_t[1-!(e)];}

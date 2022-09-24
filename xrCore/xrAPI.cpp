@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch_core.h"
 #include "xrAPI.hpp"
 
 IRender_interface* Render = nullptr;

@@ -1,34 +1,34 @@
-#include "stdafx.h"
+#include "pch_render.h"
 #pragma hdrstop
 
 #include "../xrRender/r_constants_cache.h"
 
 dx10ConstantBuffer& R_constants::GetCBuffer(R_constant* C, BufferType BType)
 {
-	if (BType==BT_PixelBuffer)
+	if (BType == BT_PixelBuffer)
 	{
 		//	Decode index
-		int iBufferIndex = (C->destination&RC_dest_pixel_cb_index_mask)>>RC_dest_pixel_cb_index_shift;
+		int iBufferIndex = (C->destination & RC_dest_pixel_cb_index_mask) >> RC_dest_pixel_cb_index_shift;
 
-		VERIFY(iBufferIndex<CBackend::MaxCBuffers);
+		VERIFY(iBufferIndex < CBackend::MaxCBuffers);
 		VERIFY(RCache.m_aPixelConstants[iBufferIndex]);
 		return *RCache.m_aPixelConstants[iBufferIndex];
 	}
-	else if (BType==BT_VertexBuffer)
+	else if (BType == BT_VertexBuffer)
 	{
 		//	Decode index
-		int iBufferIndex = (C->destination&RC_dest_vertex_cb_index_mask)>>RC_dest_vertex_cb_index_shift;
+		int iBufferIndex = (C->destination & RC_dest_vertex_cb_index_mask) >> RC_dest_vertex_cb_index_shift;
 
-		VERIFY(iBufferIndex<CBackend::MaxCBuffers);
+		VERIFY(iBufferIndex < CBackend::MaxCBuffers);
 		VERIFY(RCache.m_aVertexConstants[iBufferIndex]);
 		return *RCache.m_aVertexConstants[iBufferIndex];
 	}
-	else //if (BType==BT_GeometryBuffer)
+	else // if (BType==BT_GeometryBuffer)
 	{
 		//	Decode index
-		int iBufferIndex = (C->destination&RC_dest_geometry_cb_index_mask)>>RC_dest_geometry_cb_index_shift;
+		int iBufferIndex = (C->destination & RC_dest_geometry_cb_index_mask) >> RC_dest_geometry_cb_index_shift;
 
-		VERIFY(iBufferIndex<CBackend::MaxCBuffers);
+		VERIFY(iBufferIndex < CBackend::MaxCBuffers);
 		VERIFY(RCache.m_aGeometryConstants[iBufferIndex]);
 		return *RCache.m_aGeometryConstants[iBufferIndex];
 	}
@@ -36,16 +36,13 @@ dx10ConstantBuffer& R_constants::GetCBuffer(R_constant* C, BufferType BType)
 
 void R_constants::flush_cache()
 {
-	for (int i=0; i < CBackend::MaxCBuffers; ++i)
+	for (int i = 0; i < CBackend::MaxCBuffers; ++i)
 	{
-		if (RCache.m_aVertexConstants[i])
-			RCache.m_aVertexConstants[i]->Flush();
+		if (RCache.m_aVertexConstants[i]) RCache.m_aVertexConstants[i]->Flush();
 
-		if (RCache.m_aPixelConstants[i])
-			RCache.m_aPixelConstants[i]->Flush();
+		if (RCache.m_aPixelConstants[i]) RCache.m_aPixelConstants[i]->Flush();
 
-		if (RCache.m_aGeometryConstants[i])
-			RCache.m_aGeometryConstants[i]->Flush();
+		if (RCache.m_aGeometryConstants[i]) RCache.m_aGeometryConstants[i]->Flush();
 	}
 }
 
@@ -58,7 +55,7 @@ void R_constants::flush_cache()
 		R_constant_array::t_f&	F	= a_pixel.c_f;
 		{
 			//if (F.r_lo() <= 32) //. hack
-			{		
+			{
 				void	*pBuffer;
 				const int iVectorElements = 4;
 				const int iVectorNumber = 256;
@@ -85,7 +82,7 @@ void R_constants::flush_cache()
 				}
 				PGO		(Msg("PGO:V_CONST:%d",count));
 #endif
-				{		
+				{
 					void	*pBuffer;
 					const int iVectorElements = 4;
 					const int iVectorNumber = 256;

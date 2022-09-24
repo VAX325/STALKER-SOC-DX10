@@ -84,7 +84,7 @@
     <ClCompile Include="FTimer.cpp">
       <Filter>Kernel</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="pch_core.cpp">
       <Filter>Kernel</Filter>
     </ClCompile>
     <ClCompile Include="xrCore.cpp">
@@ -279,7 +279,7 @@
     <ClInclude Include="resource.h">
       <Filter>Kernel</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="pch_core.h">
       <Filter>Kernel</Filter>
     </ClInclude>
     <ClInclude Include="xrCore.h">
@@ -569,5 +569,8 @@
     <CustomBuild Include="LocatorAPI_Notifications.h">
       <Filter>FS</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

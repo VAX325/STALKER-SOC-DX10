@@ -20,16 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
-
 #ifndef LUABIND_CONFIG_HPP_INCLUDED
 #define LUABIND_CONFIG_HPP_INCLUDED
 
 #if !defined(DEBUG) || defined(FORCE_NO_EXCEPTIONS)
-	// release: no error checking, no exceptions
-	#define LUABIND_NO_EXCEPTIONS
+// release: no error checking, no exceptions
+#define LUABIND_NO_EXCEPTIONS
 //	#define BOOST_THROW_EXCEPTION_HPP_INCLUDED
 
-	namespace std	{	class exception; }
+namespace std
+{
+	class exception;
+}
 //	namespace boost {	void  throw_exception(const std::exception &A);	};
 #endif
 #define LUABIND_DONT_COPY_STRINGS
@@ -37,63 +39,60 @@
 #include "../xrCore/xrCore.h"
 #include <boost/config.hpp>
 
-//namespace std {
+// namespace std {
 //	void terminate();
-//}
+// }
 
 #ifdef BOOST_MSVC
-	#define LUABIND_ANONYMOUS_FIX static
+#define LUABIND_ANONYMOUS_FIX static
 #else
-	#define LUABIND_ANONYMOUS_FIX
+#define LUABIND_ANONYMOUS_FIX
 #endif
 
-#if defined (BOOST_MSVC) && (BOOST_MSVC <= 1200)
+#if defined(BOOST_MSVC) && (BOOST_MSVC <= 1200)
 
-#define for if (false) {} else for
+#define for                                                                                                            \
+	if (false) {}                                                                                                      \
+	else for
 
 #include <cstring>
 
 namespace std
 {
-	using ::strlen;
 	using ::strcmp;
+	using ::strlen;
 	using ::type_info;
-}
+} // namespace std
 
 #endif
 
 // #define string_class std::string
 #define string_class xr_string
 
-#if defined (BOOST_MSVC) && (BOOST_MSVC <= 1300)
-	#define LUABIND_MSVC_TYPENAME
+#if defined(BOOST_MSVC) && (BOOST_MSVC <= 1300)
+#define LUABIND_MSVC_TYPENAME
 #else
-	#define LUABIND_MSVC_TYPENAME typename
+#define LUABIND_MSVC_TYPENAME typename
 #endif
 
 // the maximum number of arguments of functions that's
 // registered. Must at least be 2
 #ifndef LUABIND_MAX_ARITY
-	#define LUABIND_MAX_ARITY 10
+#define LUABIND_MAX_ARITY 10
 #elif LUABIND_MAX_ARITY <= 1
-	#undef LUABIND_MAX_ARITY
-	#define LUABIND_MAX_ARITY 2
+#undef LUABIND_MAX_ARITY
+#define LUABIND_MAX_ARITY 2
 #endif
 
 // the maximum number of classes one class
 // can derive from
 // max bases must at least be 1
 #ifndef LUABIND_MAX_BASES
-	#define LUABIND_MAX_BASES 10
+#define LUABIND_MAX_BASES 10
 #elif LUABIND_MAX_BASES <= 0
-	#undef LUABIND_MAX_BASES
-	#define LUABIND_MAX_BASES 1
+#undef LUABIND_MAX_BASES
+#define LUABIND_MAX_BASES 1
 #endif
-
-#if _SECURE_SCL > 0 || _ITERATOR_DEBUG_LEVEL > 0
-#error "Это не работает в X-Ray!"
-#endif
-
 
 // LUABIND_NO_ERROR_CHECKING
 #define LUABIND_NO_ERROR_CHECKING2
@@ -130,10 +129,10 @@ namespace std
 // for all classes that you have type-info for.
 
 #ifndef LUABIND_TYPE_INFO
-	#define LUABIND_TYPE_INFO const std::type_info*
-	#define LUABIND_TYPEID(t) &typeid(t)
-	#define LUABIND_TYPE_INFO_EQUAL(i1, i2) *i1 == *i2
-	#define LUABIND_INVALID_TYPE_INFO &typeid(detail::null_type)
+#define LUABIND_TYPE_INFO const std::type_info*
+#define LUABIND_TYPEID(t) &typeid(t)
+#define LUABIND_TYPE_INFO_EQUAL(i1, i2) *i1 == *i2
+#define LUABIND_INVALID_TYPE_INFO &typeid(detail::null_type)
 #include <typeinfo>
 #endif
 
@@ -156,18 +155,17 @@ namespace std
 // this define is set if we're currently building a luabind file
 // select import or export depending on it
 #ifdef LUABIND_BUILDING
-	#ifdef LUABIND_EXPORT
-		#define LUABIND_API LUABIND_EXPORT
-	#else
-		#define LUABIND_API
-	#endif
+#ifdef LUABIND_EXPORT
+#define LUABIND_API LUABIND_EXPORT
 #else
-	#ifdef LUABIND_IMPORT
-		#define LUABIND_API LUABIND_IMPORT
-	#else
-		#define LUABIND_API
-	#endif
+#define LUABIND_API
+#endif
+#else
+#ifdef LUABIND_IMPORT
+#define LUABIND_API LUABIND_IMPORT
+#else
+#define LUABIND_API
+#endif
 #endif
 
 #endif // LUABIND_CONFIG_HPP_INCLUDED
-

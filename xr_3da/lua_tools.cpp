@@ -1,13 +1,13 @@
-#include "stdafx.h"
+#include "pch_engine.h"
 #include "lua_tools.h"
 
 lua_State* g_game_lua = NULL;
 
-ENGINE_API LPCSTR get_lua_traceback(lua_State *L, int depth)
+ENGINE_API LPCSTR get_lua_traceback(lua_State* L, int depth)
 {
 	if (L) g_game_lua = L;
 
-	static char  buffer[32768]; // global buffer
+	static char buffer[32768]; // global buffer
 	int top = lua_gettop(L);
 	// alpet: Lua traceback added
 	lua_getfield(L, LUA_GLOBALSINDEX, "debug");
@@ -15,7 +15,7 @@ ENGINE_API LPCSTR get_lua_traceback(lua_State *L, int depth)
 	lua_pushstring(L, "\t");
 	lua_pushinteger(L, 1);
 
-	const char *traceback = "cannot get Lua traceback ";
+	const char* traceback = "cannot get Lua traceback ";
 	strcpy_s(buffer, 32767, traceback);
 	__try
 	{
@@ -30,6 +30,6 @@ ENGINE_API LPCSTR get_lua_traceback(lua_State *L, int depth)
 	{
 		Msg("!#EXCEPTION(get_lua_traceback): buffer = %s ", buffer);
 	}
-	lua_settop (L, top);
+	lua_settop(L, top);
 	return buffer;
 }

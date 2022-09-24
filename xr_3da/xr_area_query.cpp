@@ -1,8 +1,8 @@
-#include "stdafx.h"
+#include "pch_engine.h"
 #include "xr_area.h"
 #include "xr_object.h"
 
-using namespace	collide;
+using namespace collide;
 
 /*
 const u32	clStatic		= clQUERY_STATIC+clGET_TRIS;
@@ -10,7 +10,7 @@ const u32	clStatic		= clQUERY_STATIC+clGET_TRIS;
 void CObjectSpace::BoxQuery	(collide::rq_results& r_dest, const Fbox& B, const Fmatrix& M, u32 flags)
 {
 	Fvector		bc,bd;
-	Fbox		xf; 
+	Fbox		xf;
 	xf.xform	(B,M);
 	xf.get_CD	(bc,bd);
 

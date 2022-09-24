@@ -8,39 +8,33 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION \
-	template<typename _edge_type, bool bEuclidianHeuristics>\
-	template <template <typename _T> class _vertex> 
+#define TEMPLATE_SPECIALIZATION                                                                                        \
+	template <typename _edge_type, bool bEuclidianHeuristics>                                                          \
+	template <template <typename _T> class _vertex>
 
-
-#define CEdgePathBuilder		CEdgePath<_edge_type,bEuclidianHeuristics>::CDataStorage<_vertex>
+#define CEdgePathBuilder CEdgePath<_edge_type, bEuclidianHeuristics>::CDataStorage<_vertex>
 
 TEMPLATE_SPECIALIZATION
-IC	CEdgePathBuilder::CDataStorage			(const u32 vertex_count) :
-	inherited					(vertex_count)
+IC CEdgePathBuilder::CDataStorage(const u32 vertex_count) : inherited(vertex_count) {}
+
+TEMPLATE_SPECIALIZATION
+CEdgePathBuilder::~CDataStorage() {}
+
+TEMPLATE_SPECIALIZATION
+IC void CEdgePathBuilder::assign_parent(CGraphVertex& neighbour, CGraphVertex* parent)
 {
+	inherited::assign_parent(neighbour, parent);
 }
 
 TEMPLATE_SPECIALIZATION
-CEdgePathBuilder::~CDataStorage				()
+IC void CEdgePathBuilder::assign_parent(CGraphVertex& neighbour, CGraphVertex* parent, const _edge_type& edge)
 {
+	inherited::assign_parent(neighbour, parent);
+	neighbour.edge() = edge;
 }
 
 TEMPLATE_SPECIALIZATION
-IC	void CEdgePathBuilder::assign_parent	(CGraphVertex	&neighbour, CGraphVertex *parent)
-{
-	inherited::assign_parent	(neighbour,parent);
-}
-
-TEMPLATE_SPECIALIZATION
-IC	void CEdgePathBuilder::assign_parent(CGraphVertex	&neighbour, CGraphVertex *parent, const _edge_type &edge)
-{
-	inherited::assign_parent	(neighbour,parent);
-	neighbour.edge()			= edge;
-}
-
-TEMPLATE_SPECIALIZATION
-IC	void CEdgePathBuilder::get_edge_path(xr_vector<_edge_type> &path, CGraphVertex *best, bool reverse_order)
+IC void CEdgePathBuilder::get_edge_path(xr_vector<_edge_type>& path, CGraphVertex* best, bool reverse_order)
 {
 	CGraphVertex *t1 = best, *t2 = best->back();
 	u32 i;
@@ -63,7 +57,6 @@ IC	void CEdgePathBuilder::get_edge_path(xr_vector<_edge_type> &path, CGraphVerte
 			*it = t2->edge();
 	}
 }
-
 
 #undef TEMPLATE_SPECIALIZATION
 #undef CEdgePathBuilder

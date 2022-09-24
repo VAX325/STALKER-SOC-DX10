@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch_engine.h"
 #include "Text_Console.h"
 #include "line_editor.h"
 
@@ -38,21 +38,29 @@ void CTextConsole::CreateConsoleWnd()
 	const char* wndclass = "TEXT_CONSOLE";
 
 	// Register the windows class
-	WNDCLASS wndClass = { 0, TextConsole_WndProc, 0, 0, hInstance, NULL, LoadCursor(hInstance, IDC_ARROW),
-		GetStockBrush(GRAY_BRUSH), NULL, wndclass };
+	WNDCLASS wndClass = {0,
+						 TextConsole_WndProc,
+						 0,
+						 0,
+						 hInstance,
+						 NULL,
+						 LoadCursor(hInstance, IDC_ARROW),
+						 GetStockBrush(GRAY_BRUSH),
+						 NULL,
+						 wndclass};
 	RegisterClass(&wndClass);
 
 	// Set the window's initial style
 	u32 dwWindowStyle = WS_OVERLAPPED | WS_CHILD | WS_VISIBLE; // | WS_CLIPSIBLINGS;// | WS_CLIPCHILDREN;
 
-															   // Set the window's initial width
+	// Set the window's initial width
 	RECT rc;
 	SetRect(&rc, lX, lY, lWidth, lHeight);
 	// AdjustWindowRect( &rc, dwWindowStyle, FALSE );
 
 	// Create the render window
-	m_hConsoleWnd = CreateWindow(
-		wndclass, "XRAY Text Console", dwWindowStyle, lX, lY, lWidth, lHeight, *m_pMainWnd, 0, hInstance, 0L);
+	m_hConsoleWnd = CreateWindow(wndclass, "XRAY Text Console", dwWindowStyle, lX, lY, lWidth, lHeight, *m_pMainWnd, 0,
+								 hInstance, 0L);
 	//---------------------------------------------------------------------------
 	R_ASSERT2(m_hConsoleWnd, "Unable to Create TextConsole Window!");
 };
@@ -72,22 +80,30 @@ void CTextConsole::CreateLogWnd()
 	const char* wndclass = "TEXT_CONSOLE_LOG_WND";
 
 	// Register the windows class
-	WNDCLASS wndClass = { 0, TextConsole_LogWndProc, 0, 0, hInstance, NULL, LoadCursor(NULL, IDC_ARROW),
-		GetStockBrush(BLACK_BRUSH), NULL, wndclass };
+	WNDCLASS wndClass = {0,
+						 TextConsole_LogWndProc,
+						 0,
+						 0,
+						 hInstance,
+						 NULL,
+						 LoadCursor(NULL, IDC_ARROW),
+						 GetStockBrush(BLACK_BRUSH),
+						 NULL,
+						 wndclass};
 	RegisterClass(&wndClass);
 
 	// Set the window's initial style
 	u32 dwWindowStyle = WS_OVERLAPPED | WS_CHILD | WS_VISIBLE; // | WS_CLIPSIBLINGS;
 															   // u32 dwWindowStyleEx = WS_EX_CLIENTEDGE;
 
-															   // Set the window's initial width
+	// Set the window's initial width
 	RECT rc;
 	SetRect(&rc, lX, lY, lWidth, lHeight);
 	// AdjustWindowRect( &rc, dwWindowStyle, FALSE );
 
 	// Create the render window
-	m_hLogWnd = CreateWindow(
-		wndclass, "XRAY Text Console Log", dwWindowStyle, lX, lY, lWidth, lHeight, m_hConsoleWnd, 0, hInstance, 0L);
+	m_hLogWnd = CreateWindow(wndclass, "XRAY Text Console Log", dwWindowStyle, lX, lY, lWidth, lHeight, m_hConsoleWnd,
+							 0, hInstance, 0L);
 	//---------------------------------------------------------------------------
 	R_ASSERT2(m_hLogWnd, "Unable to Create TextConsole Window!");
 	//---------------------------------------------------------------------------
@@ -160,16 +176,11 @@ void CTextConsole::Destroy()
 	SelectObject(m_hDC_LogWnd_BackBuffer, m_hPrevFont);
 	SelectObject(m_hDC_LogWnd_BackBuffer, m_hOld_BM);
 
-	if (m_hBB_BM)
-		DeleteObject(m_hBB_BM);
-	if (m_hOld_BM)
-		DeleteObject(m_hOld_BM);
-	if (m_hLogWndFont)
-		DeleteObject(m_hLogWndFont);
-	if (m_hPrevFont)
-		DeleteObject(m_hPrevFont);
-	if (m_hBackGroundBrush)
-		DeleteObject(m_hBackGroundBrush);
+	if (m_hBB_BM) DeleteObject(m_hBB_BM);
+	if (m_hOld_BM) DeleteObject(m_hOld_BM);
+	if (m_hLogWndFont) DeleteObject(m_hLogWndFont);
+	if (m_hPrevFont) DeleteObject(m_hPrevFont);
+	if (m_hBackGroundBrush) DeleteObject(m_hBackGroundBrush);
 
 	ReleaseDC(m_hLogWnd, m_hDC_LogWnd_BackBuffer);
 	ReleaseDC(m_hLogWnd, m_hDC_LogWnd);
@@ -193,17 +204,14 @@ void CTextConsole::OnPaint()
 		GetClientRect(m_hLogWnd, &wRC);
 		DrawLog(m_hDC_LogWnd_BackBuffer, &wRC);
 	}
-	else
-	{
-		wRC = ps.rcPaint;
-	}
+	else { wRC = ps.rcPaint; }
 
 	BitBlt(m_hDC_LogWnd, wRC.left, wRC.top, wRC.right - wRC.left, wRC.bottom - wRC.top, m_hDC_LogWnd_BackBuffer,
-		wRC.left, wRC.top,
-		SRCCOPY); //(FullUpdate) ? SRCCOPY : NOTSRCCOPY);
-				  /*
-				  Msg ("URect - %d:%d - %d:%d", ps.rcPaint.left, ps.rcPaint.top, ps.rcPaint.right, ps.rcPaint.bottom);
-				  */
+		   wRC.left, wRC.top,
+		   SRCCOPY); //(FullUpdate) ? SRCCOPY : NOTSRCCOPY);
+					 /*
+					 Msg ("URect - %d:%d - %d:%d", ps.rcPaint.left, ps.rcPaint.top, ps.rcPaint.right, ps.rcPaint.bottom);
+					 */
 	EndPaint(m_hLogWnd, &ps);
 }
 
@@ -263,16 +271,10 @@ void CTextConsole::DrawLog(HDC hDC, RECT* pRect)
 	for (int i = LogFile->size() - 1 - scroll_delta; i >= 0; --i)
 	{
 		ypos -= tm.tmHeight;
-		if (ypos < y_top_max)
-		{
-			break;
-		}
+		if (ypos < y_top_max) { break; }
 		LPCSTR ls = ((*LogFile)[i]).c_str();
 
-		if (!ls)
-		{
-			continue;
-		}
+		if (!ls) { continue; }
 		Console_mark cm = (Console_mark)ls[0];
 		COLORREF c2 = (COLORREF)bgr2rgb(get_mark_color(cm));
 		SetTextColor(hDC, c2);
@@ -280,10 +282,7 @@ void CTextConsole::DrawLog(HDC hDC, RECT* pRect)
 		LPCSTR pOut = ls + b;
 
 		BOOL res = TextOut(hDC, 10, ypos, pOut, xr_strlen(pOut));
-		if (!res)
-		{
-			R_ASSERT2(0, "TextOut(..) return NULL");
-		}
+		if (!res) { R_ASSERT2(0, "TextOut(..) return NULL"); }
 	}
 
 	if (g_pGameLevel && (Device.dwTimeGlobal - m_last_time > 500))
@@ -301,10 +300,7 @@ void CTextConsole::DrawLog(HDC hDC, RECT* pRect)
 		TextOut(hDC, 10, ypos, m_server_info[i].name, xr_strlen(m_server_info[i].name));
 
 		ypos += tm.tmHeight;
-		if (ypos > y_top_max)
-		{
-			break;
-		}
+		if (ypos > y_top_max) { break; }
 	}
 }
 /*
@@ -321,7 +317,8 @@ void CTextConsole::OnFrame()
 	{
 	return;
 	}
-	*/ InvalidateRect(m_hConsoleWnd, NULL, FALSE);
+	*/
+	InvalidateRect(m_hConsoleWnd, NULL, FALSE);
 	SetCursor(LoadCursor(NULL, IDC_ARROW));
 	// m_bNeedUpdate = true;
 }

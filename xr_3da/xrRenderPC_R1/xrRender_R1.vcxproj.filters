@@ -153,7 +153,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="pch_render.h">
       <Filter>Kernel</Filter>
     </ClInclude>
     <ClInclude Include="FStaticRender.h">
@@ -394,7 +394,7 @@
     <ClInclude Include="$(SolutionDir)xr_3da\xrRender\skinw.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="pch_render_r1.cpp">
       <Filter>Kernel</Filter>
     </ClCompile>
     <ClCompile Include="xrRender_R1.cpp">
@@ -456,12 +456,6 @@
     </ClCompile>
     <ClCompile Include="..\xrRender\dxRenderVisual.cpp">
       <Filter>Refactored\Execution &amp; 3D\Visuals</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ai_script_lua_extension.cpp">
-      <Filter>Refactored\Execution &amp; 3D\Shaders\ShaderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ai_script_lua_debug.cpp">
-      <Filter>Refactored\Execution &amp; 3D\Shaders\ShaderManager</Filter>
     </ClCompile>
     <ClCompile Include="$(SolutionDir)xr_3da\xrRenderDX9\dx9r_constants_cache.cpp" />
     <ClCompile Include="$(SolutionDir)xr_3da\xrRender\Animation.cpp" />
@@ -574,5 +568,11 @@
     <ClCompile Include="$(SolutionDir)xr_3da\xrRender\xrStripify.cpp" />
     <ClCompile Include="$(SolutionDir)xr_3da\xrRender\xr_effgamma.cpp" />
     <ClCompile Include="$(SolutionDir)xr_3da\xrRender\skinw.cpp" />
+    <ClCompile Include="ai_script_lua_debug_r1.cpp">
+      <Filter>Refactored\Execution &amp; 3D\Shaders\ShaderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ai_script_lua_extension_r1.cpp">
+      <Filter>Refactored\Execution &amp; 3D\Shaders\ShaderManager</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

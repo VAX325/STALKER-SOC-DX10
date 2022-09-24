@@ -186,7 +186,7 @@
     <ClInclude Include="cl_intersect.h">
       <Filter>Kernel</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="pch_render.h">
       <Filter>Kernel</Filter>
     </ClInclude>
     <ClInclude Include="r2_types.h">
@@ -422,7 +422,7 @@
     <ClInclude Include="$(SolutionDir)xr_3da\xrRender\skinw.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="pch_render_r3.cpp">
       <Filter>Kernel</Filter>
     </ClCompile>
     <ClCompile Include="xrRender_R3.cpp">
@@ -593,8 +593,6 @@
     <ClCompile Include="..\xrRender\Light_Render_Direct_ComputeXFS.cpp">
       <Filter>Lights</Filter>
     </ClCompile>
-    <ClCompile Include="$(SolutionDir)xr_3da\ai_script_lua_debug.cpp" />
-    <ClCompile Include="$(SolutionDir)xr_3da\ai_script_lua_extension.cpp" />
     <ClCompile Include="$(SolutionDir)xr_3da\xrRenderDX10\3DFluid\dx103DFluidBlenders.cpp" />
     <ClCompile Include="$(SolutionDir)xr_3da\xrRenderDX10\3DFluid\dx103DFluidData.cpp" />
     <ClCompile Include="$(SolutionDir)xr_3da\xrRenderDX10\3DFluid\dx103DFluidEmitters.cpp" />
@@ -733,5 +731,7 @@
     <ClCompile Include="$(SolutionDir)xr_3da\xrRender\xrStripify.cpp" />
     <ClCompile Include="$(SolutionDir)xr_3da\xrRender\xr_effgamma.cpp" />
     <ClCompile Include="$(SolutionDir)xr_3da\xrRender\skinw.cpp" />
+    <ClCompile Include="ai_script_lua_extension_r3.cpp" />
+    <ClCompile Include="ai_script_lua_debug_r3.cpp" />
   </ItemGroup>
 </Project>

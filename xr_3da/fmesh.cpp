@@ -1,35 +1,35 @@
-#include "stdafx.h"
+#include "pch_engine.h"
 #pragma hdrstop
 
-#pragma warning(disable:4995)
+#pragma warning(disable : 4995)
 #include <d3dx9.h>
-#pragma warning(default:4995)
+#pragma warning(default : 4995)
 #include "fmesh.h"
 
 BOOL ValidateIndices(u32 vCount, u32 iCount, u16* pIndices)
 {
-	if (vCount>65535)	return FALSE;
-	if (iCount%3)		return FALSE;
+	if (vCount > 65535) return FALSE;
+	if (iCount % 3) return FALSE;
 
-	for (u32 I=0; I<iCount; I++)
+	for (u32 I = 0; I < iCount; I++)
 	{
-		if (u32(pIndices[I])>=vCount)	return FALSE;
+		if (u32(pIndices[I]) >= vCount) return FALSE;
 	}
 	return TRUE;
 }
 
 //-----------------------------------------------------------------------------------------------------------------
-static u32 dwPositionPart[8] =
-{
-	0,	// no position
-	3,	// x,y,z
-	4,	// sx,sy,sz,rhw
-	4,	// x,y,z,b1
-	5,	// x,y,z,b1,b2
-	6,	// x,y,z,b1,b2,b3
-	7,	// x,y,z,b1,b2,b3,b4
-	8	// x,y,z,b1,b2,b3,b4,b5
-};
+// static u32 dwPositionPart[8] =
+//{
+//	0,	// no position
+//	3,	// x,y,z
+//	4,	// sx,sy,sz,rhw
+//	4,	// x,y,z,b1
+//	5,	// x,y,z,b1,b2
+//	6,	// x,y,z,b1,b2,b3
+//	7,	// x,y,z,b1,b2,b3,b4
+//	8	// x,y,z,b1,b2,b3,b4,b5
+//};
 
 #define FAKES 0xffffffff
 #define FAKEZ 0xfffffffe
@@ -164,22 +164,21 @@ void ConvertVertices(u32 dwTypeDest, void *pDest, u32 dwTypeSrc, void *pSource, 
 */
 void ogf_desc::Load(IReader& F)
 {
-	F.r_stringZ	(source_file);
-    F.r_stringZ	(build_name);
-    F.r			(&build_time,sizeof(build_time));
-    F.r_stringZ	(create_name);
-    F.r			(&create_time,sizeof(create_time));
-    F.r_stringZ	(modif_name);
-    F.r			(&modif_time,sizeof(modif_time));
+	F.r_stringZ(source_file);
+	F.r_stringZ(build_name);
+	F.r(&build_time, sizeof(build_time));
+	F.r_stringZ(create_name);
+	F.r(&create_time, sizeof(create_time));
+	F.r_stringZ(modif_name);
+	F.r(&modif_time, sizeof(modif_time));
 }
 void ogf_desc::Save(IWriter& F)
 {
-	F.w_stringZ	(source_file);
-    F.w_stringZ	(build_name);
-    F.w			(&build_time,sizeof(build_time));
-    F.w_stringZ	(create_name);
-    F.w			(&create_time,sizeof(create_time));
-    F.w_stringZ	(modif_name);
-    F.w			(&modif_time,sizeof(modif_time));
+	F.w_stringZ(source_file);
+	F.w_stringZ(build_name);
+	F.w(&build_time, sizeof(build_time));
+	F.w_stringZ(create_name);
+	F.w(&create_time, sizeof(create_time));
+	F.w_stringZ(modif_name);
+	F.w(&modif_time, sizeof(modif_time));
 }
-

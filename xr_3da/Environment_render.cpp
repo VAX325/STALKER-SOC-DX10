@@ -1,16 +1,16 @@
-#include "stdafx.h"
+#include "pch_engine.h"
 #pragma hdrstop
 
 #include "Environment.h"
 #ifndef _EDITOR
-    #include "render.h"
+#include "render.h"
 #endif
 #include "xr_efflensflare.h"
 #include "rain.h"
 #include "thunderbolt.h"
 
 #ifndef _EDITOR
-#	include "igame_level.h"
+#include "igame_level.h"
 #endif
 /*
 //////////////////////////////////////////////////////////////////////////
@@ -68,12 +68,9 @@ struct v_skybox				{
 		uv[1]				= _tc;
 	}
 };
-const	u32 v_skybox_fvf	= D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX2 | D3DFVF_TEXCOORDSIZE3(0) | D3DFVF_TEXCOORDSIZE3(1);
-struct v_clouds				{
-	Fvector3	p;
-	u32			color;
-	u32			intensity;
-	void		set			(Fvector3& _p, u32 _c, u32 _i)
+const	u32 v_skybox_fvf	= D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX2 | D3DFVF_TEXCOORDSIZE3(0) |
+D3DFVF_TEXCOORDSIZE3(1); struct v_clouds				{ Fvector3	p; u32			color; u32			intensity; void
+set			(Fvector3& _p, u32 _c, u32 _i)
 	{
 		p					= _p;
 		color				= _c;
@@ -88,11 +85,11 @@ const	u32 v_clouds_fvf	= D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_SPECULAR;
 // Environment render
 //-----------------------------------------------------------------------------
 extern ENGINE_API float psHUD_FOV;
-//BOOL bNeed_re_create_env = FALSE;
-void CEnvironment::RenderSky		()
+// BOOL bNeed_re_create_env = FALSE;
+void CEnvironment::RenderSky()
 {
 #ifndef _EDITOR
-	if (0==g_pGameLevel)		return;
+	if (0 == g_pGameLevel) return;
 #endif
 
 	m_pRender->RenderSky(*this);
@@ -100,7 +97,7 @@ void CEnvironment::RenderSky		()
 	// clouds_sh.create		("clouds","null");
 	//. this is the bug-fix for the case when the sky is broken
 	//. for some unknown reason the geoms happen to be invalid sometimes
-	//. if vTune show this in profile, please add simple cache (move-to-forward last found) 
+	//. if vTune show this in profile, please add simple cache (move-to-forward last found)
 	//. to the following functions:
 	//.		CResourceManager::_CreateDecl
 	//.		CResourceManager::CreateGeom
@@ -120,7 +117,8 @@ void CEnvironment::RenderSky		()
 	mSky.translate_over			(Device.vCameraPosition);
 
 	u32		i_offset,v_offset;
-	u32		C					= color_rgba(iFloor(CurrentEnv->sky_color.x*255.f), iFloor(CurrentEnv->sky_color.y*255.f), iFloor(CurrentEnv->sky_color.z*255.f), iFloor(CurrentEnv->weight*255.f));
+	u32		C					= color_rgba(iFloor(CurrentEnv->sky_color.x*255.f),
+	iFloor(CurrentEnv->sky_color.y*255.f), iFloor(CurrentEnv->sky_color.z*255.f), iFloor(CurrentEnv->weight*255.f));
 
 	// Fill index buffer
 	u16*	pib					= RCache.Index.Lock	(20*3,i_offset);
@@ -145,13 +143,13 @@ void CEnvironment::RenderSky		()
 	*/
 }
 
-void CEnvironment::RenderClouds			()
+void CEnvironment::RenderClouds()
 {
 #ifndef _EDITOR
-	if (0==g_pGameLevel)		return	;
+	if (0 == g_pGameLevel) return;
 #endif
 	// draw clouds
-	if (fis_zero(CurrentEnv->clouds_color.w,EPS_L))	return;
+	if (fis_zero(CurrentEnv->clouds_color.w, EPS_L)) return;
 
 	m_pRender->RenderClouds(*this);
 	/*
@@ -170,8 +168,10 @@ void CEnvironment::RenderClouds			()
 	wd1.setHP					(PI_DIV_4+PI_DIV_8,0);
 	wind_dir.set				(wd0.x,wd0.z,wd1.x,wd1.z).mul(0.5f).add(0.5f).mul(255.f);
 	u32		i_offset,v_offset;
-	u32		C0					= color_rgba(iFloor(wind_dir.x),iFloor(wind_dir.y),iFloor(wind_dir.w),iFloor(wind_dir.z));
-	u32		C1					= color_rgba(iFloor(CurrentEnv->clouds_color.x*255.f),iFloor(CurrentEnv->clouds_color.y*255.f),iFloor(CurrentEnv->clouds_color.z*255.f),iFloor(CurrentEnv->clouds_color.w*255.f));
+	u32		C0					=
+	color_rgba(iFloor(wind_dir.x),iFloor(wind_dir.y),iFloor(wind_dir.w),iFloor(wind_dir.z));
+	u32		C1					=
+	color_rgba(iFloor(CurrentEnv->clouds_color.x*255.f),iFloor(CurrentEnv->clouds_color.y*255.f),iFloor(CurrentEnv->clouds_color.z*255.f),iFloor(CurrentEnv->clouds_color.w*255.f));
 
 	// Fill index buffer
 	u16*	pib					= RCache.Index.Lock	(CloudsIndices.size(),i_offset);
@@ -195,28 +195,28 @@ void CEnvironment::RenderClouds			()
 	*/
 }
 
-void CEnvironment::RenderFlares		()
+void CEnvironment::RenderFlares()
 {
 #ifndef _EDITOR
-	if (0==g_pGameLevel)			return	;
+	if (0 == g_pGameLevel) return;
 #endif
 	// 1
-	eff_LensFlare->Render			(FALSE,TRUE,TRUE);
+	eff_LensFlare->Render(FALSE, TRUE, TRUE);
 }
 
-void CEnvironment::RenderLast		()
+void CEnvironment::RenderLast()
 {
 #ifndef _EDITOR
-	if (0==g_pGameLevel)			return	;
+	if (0 == g_pGameLevel) return;
 #endif
 	// 2
-	eff_Rain->Render				();
-	eff_Thunderbolt->Render			();
+	eff_Rain->Render();
+	eff_Thunderbolt->Render();
 }
 
 void CEnvironment::OnDeviceCreate()
 {
-//.	bNeed_re_create_env			= TRUE;
+	//.	bNeed_re_create_env			= TRUE;
 	m_pRender->OnDeviceCreate();
 	/*
 	sh_2sky.create			(&m_b_skybox,"skybox_2t");
@@ -227,26 +227,25 @@ void CEnvironment::OnDeviceCreate()
 
 	// weathers
 	{
-		EnvsMapIt _I,_E;
-		_I		= WeatherCycles.begin();
-		_E		= WeatherCycles.end();
-		for (; _I!=_E; _I++)
-			for (EnvIt it=_I->second.begin(); it!=_I->second.end(); it++)
+		EnvsMapIt _I, _E;
+		_I = WeatherCycles.begin();
+		_E = WeatherCycles.end();
+		for (; _I != _E; _I++)
+			for (EnvIt it = _I->second.begin(); it != _I->second.end(); it++)
 				(*it)->on_device_create();
 	}
 	// effects
 	{
-		EnvsMapIt _I,_E;
-		_I		= WeatherFXs.begin();
-		_E		= WeatherFXs.end();
-		for (; _I!=_E; _I++)
-			for (EnvIt it=_I->second.begin(); it!=_I->second.end(); it++)
+		EnvsMapIt _I, _E;
+		_I = WeatherFXs.begin();
+		_E = WeatherFXs.end();
+		for (; _I != _E; _I++)
+			for (EnvIt it = _I->second.begin(); it != _I->second.end(); it++)
 				(*it)->on_device_create();
 	}
 
-
-	Invalidate	();
-	OnFrame		();
+	Invalidate();
+	OnFrame();
 }
 
 void CEnvironment::OnDeviceDestroy()
@@ -255,7 +254,7 @@ void CEnvironment::OnDeviceDestroy()
 	/*
 	tsky0->surface_set						(NULL);
 	tsky1->surface_set						(NULL);
-	
+
 	sh_2sky.destroy							();
 	sh_2geom.destroy						();
 	clouds_sh.destroy						();
@@ -263,31 +262,29 @@ void CEnvironment::OnDeviceDestroy()
 	*/
 	// weathers
 	{
-		EnvsMapIt _I,_E;
-		_I		= WeatherCycles.begin();
-		_E		= WeatherCycles.end();
-		for (; _I!=_E; _I++)
-			for (EnvIt it=_I->second.begin(); it!=_I->second.end(); it++)
+		EnvsMapIt _I, _E;
+		_I = WeatherCycles.begin();
+		_E = WeatherCycles.end();
+		for (; _I != _E; _I++)
+			for (EnvIt it = _I->second.begin(); it != _I->second.end(); it++)
 				(*it)->on_device_destroy();
 	}
 	// effects
 	{
-		EnvsMapIt _I,_E;
-		_I		= WeatherFXs.begin();
-		_E		= WeatherFXs.end();
-		for (; _I!=_E; _I++)
-			for (EnvIt it=_I->second.begin(); it!=_I->second.end(); it++)
+		EnvsMapIt _I, _E;
+		_I = WeatherFXs.begin();
+		_E = WeatherFXs.end();
+		for (; _I != _E; _I++)
+			for (EnvIt it = _I->second.begin(); it != _I->second.end(); it++)
 				(*it)->on_device_destroy();
 	}
 	CurrentEnv->destroy();
-
 }
 
 #ifdef _EDITOR
 void CEnvironment::ED_Reload()
 {
-	OnDeviceDestroy			();
-	OnDeviceCreate			();
+	OnDeviceDestroy();
+	OnDeviceCreate();
 }
 #endif
-
